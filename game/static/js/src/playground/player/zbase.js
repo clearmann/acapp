@@ -62,8 +62,9 @@ class Player extends AcGameObject {
             return false;
         });
         this.playground.game_map.$canvas.mousedown(function(e) {
+
             if(outer.playground.state !== "fighting")
-                return false;
+                return true;
 
             const rect = outer.ctx.canvas.getBoundingClientRect();
             if (e.which === 3) {
@@ -104,7 +105,17 @@ class Player extends AcGameObject {
             }
         });
 
-        $(window).keydown(function(e) {
+        this.playground.game_map.$canvas.keydown(function(e) { //绑定到canvas上
+            if(e.which === 13) { //13 表示enter键
+                if(outer.playground.mode == "multi mode"){ //打开聊天框
+                    outer.playground.chat_field.show_input();
+                    return false;
+                }
+            } else if(e.which === 27) { // 27表示esc键
+                if(outer.playground.mode === "multi mode") { //关闭聊天框
+                    outer.playground.chat_field.hide_input();
+                }
+            }
             if(outer.playground.state !== "fighting")
                 return true;
 
